@@ -15,7 +15,8 @@ namespace AspNetConfigSampleApp
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             builder.AddEnvironmentVariables();
-            Configuration = builder.Build();            
+            Configuration = builder.Build();    
+            Configuration["ClientSettings:Name"] = "Name from Startup";        
         }
 
         public IConfigurationRoot Configuration { get; set; }
