@@ -1,9 +1,7 @@
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.PlatformAbstractions;
 
 namespace AspNetConfigSampleApp
 {
@@ -20,12 +18,12 @@ namespace AspNetConfigSampleApp
             Configuration = builder.Build();            
         }
 
-        public IConfigurationRoot Configuration { get; set; }
+        public static IConfigurationRoot Configuration { get; set; }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
-        {                        
-            
+        {
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,14 +31,7 @@ namespace AspNetConfigSampleApp
         {
             app.UseIISPlatformHandler();
             
-            var clientSettings = Configuration.GetSection("ClientSettings");
-            var clientName = clientSettings.Get<string>("Name");
-            var pageSize = clientSettings.Get<int>("PageSize");
-            var showTitle = clientSettings.Get<bool>("ShowTitle");
-                         
-            app.Run(async context =>{
-                 await context.Response.WriteAsync($"RES: {clientName} {pageSize} {showTitle}");
-            });            
+            app.UseMvcWithDefaultRoute();
         }
 
         // Entry point for the application.

@@ -6,7 +6,8 @@ namespace AspNetConfigSampleApp.Controllers
     {
         public IActionResult Index()
         {            
-            return Content($"Client");
+            var clientName = Startup.Configuration["ClientSettings:Name"];
+            return Content($"Client {clientName}");
         }
     }
 }
