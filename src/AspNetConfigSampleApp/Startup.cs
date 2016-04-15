@@ -33,11 +33,13 @@ namespace AspNetConfigSampleApp
         {
             app.UseIISPlatformHandler();
             
-           
-            
-            var clientName = Configuration["ClientSettings:Name"];
+            var clientSettings = Configuration.GetSection("ClientSettings");
+            var clientName = clientSettings.Get<string>("Name");
+            var pageSize = clientSettings.Get<int>("PageSize");
+            var showTitle = clientSettings.Get<bool>("ShowTitle");
+                         
             app.Run(async context =>{
-                 await context.Response.WriteAsync($"Clietn: {clientName}");
+                 await context.Response.WriteAsync($"RES: {clientName} {pageSize} {showTitle}");
             });            
         }
 
