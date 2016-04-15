@@ -1,20 +1,20 @@
 using Microsoft.AspNet.Mvc;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.OptionsModel;
 
 namespace AspNetConfigSampleApp.Controllers
 {
     public class HomeController : Controller
     {
-        private IConfigurationRoot _configuration;
+        private ClientSettings _clientSettings;
 
-        public HomeController(IConfigurationRoot configuration)
+        public HomeController(IOptions<ClientSettings> clientSettings)
         {
-            _configuration = configuration;
+            _clientSettings = clientSettings.Value;
         }
         public IActionResult Index()
         {            
-              var clientName = _configuration["ClientSettings:Name"];
-            return Content($"Client {clientName}");
+              var clientName = _clientSettings;
+            return Content($"{_clientSettings.Name} {_clientSettings.PageSize} {_clientSettings.ShowTitle}");
         }
     }
 }

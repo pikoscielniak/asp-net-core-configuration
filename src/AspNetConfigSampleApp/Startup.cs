@@ -18,12 +18,12 @@ namespace AspNetConfigSampleApp
             Configuration = builder.Build();            
         }
 
-        public static IConfigurationRoot Configuration { get; set; }
+        public IConfigurationRoot Configuration { get; set; }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddInstance<IConfigurationRoot>(Configuration);
+            services.Configure<ClientSettings>(Configuration.GetSection("ClientSettings"));
             services.AddMvc();
         }
 
