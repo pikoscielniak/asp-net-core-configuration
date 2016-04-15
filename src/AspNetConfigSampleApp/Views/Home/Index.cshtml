@@ -1,0 +1,6 @@
+@inject IOptions<ClientSettings> ClientSettings
+<div>    
+    @if(ClientSettings.Value.ShowTitle) {
+        <h3>Page title @ClientSettings.Value.Name</h3>    
+    }
+</div>
