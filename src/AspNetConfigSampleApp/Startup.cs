@@ -2,21 +2,22 @@ using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace AspNetConfigSampleApp
 {
     public class Startup
     {
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             builder.AddEnvironmentVariables();
-            Configuration = builder.Build();    
-            Configuration["ClientSettings:Name"] = "Name from Startup";        
+            Configuration = builder.Build();
+            Configuration["Data:DefaultConnection:ConnectionString"] = $@"Data Source={appEnv.ApplicationBasePath}/WebApplication.db";            
         }
 
         public IConfigurationRoot Configuration { get; set; }
@@ -33,8 +34,8 @@ namespace AspNetConfigSampleApp
         public void Configure(IApplicationBuilder app)
         {
             app.UseDeveloperExceptionPage();
-            app.UseIISPlatformHandler();            
-            
+            app.UseIISPlatformHandler();
+
             app.UseMvcWithDefaultRoute();
         }
 
