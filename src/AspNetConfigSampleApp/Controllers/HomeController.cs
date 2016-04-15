@@ -1,13 +1,19 @@
 using Microsoft.AspNet.Mvc;
-using Microsoft.Extensions.OptionsModel;
 
 namespace AspNetConfigSampleApp.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+       private ClientSettings _clientSettings;
+
+        public HomeController(ClientSettings clientSettings)
         {
-            return View();
+            _clientSettings = clientSettings;
+        }
+        public IActionResult Index()
+        {            
+            var clientName = _clientSettings;
+            return Content($"{_clientSettings.Name} {_clientSettings.PageSize} {_clientSettings.ShowTitle}");
         }
     }
 }
